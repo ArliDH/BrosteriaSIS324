@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="stilosanim.css">
+    <script src="ajaxPrincipal.js"></script>
+    <style>
+        #cont{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        #logo{
+            mix-blend-mode: color-burn;
+            width: 400px;
+            height: 200px;
+            border: none;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cont">
+        <div id="containerII">
+            <img id="logo" src="../uploads/LoginBr.png" alt="#">
+        </div>
+        <div id="container">
+            <div id="container1"> 
+                Ofrecemos variedades de Platillos
+                <div id=flip>
+                    <div>
+                        <div>Platillos Completos</div>
+                    </div>
+                    <div>
+                        <div>Bebidas</div>
+                    </div>
+                    <div>
+                        <div>Y otras variedades</div>
+                    </div>
+                </div>
+                La Mejo de la Ciudad
+            </div>
+            <div id="container2" style="margin-top: 20px;">
+                <!-- From Uiverse.io by Smit-Prajapati --> 
+                <button class="button" onclick="javascript:abrirmodal('users/formolog.html')">Iniciar Sesion</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" style="display: none; background-color: rgba(0, 0, 0, 0.397); position: fixed; margin: 0px; top: 0; left: 0; height: 100%; width: 100%;">
+        <div id="divmodal" style="display: flex; flex-direction: column; margin-top: 50px; margin-left: 600px;">
+            <button id="cerrar" style="position: fixed;">X</button>
+            <div id="contenidomodal">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

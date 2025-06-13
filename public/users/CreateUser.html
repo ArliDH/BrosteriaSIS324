@@ -1,0 +1,75 @@
+<!--/view/users/CreateUser.html-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="NewUser">
+        <form id="crearUsuario" action="/users" method="POST" enctype="multipart/form-data">
+            <h1>Crear Usuario</h1>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required><br><br>
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" required><br><br>
+            <label for="rol">Rol:</label>
+            <select name="rol" id="rol">
+                <option value="cliente" id="rol">Cliente</option>
+                <option value="cajero" id="rol">Cajero</option>
+                <option value="gerente" id="rol">Gerente</option>
+            </select>
+            <input type="number" id="nit" name="nit" placeholder="Nit de la Empresa/Usuario" required><br><br>
+            <input type="submit" value="Crear Usuario" id="CrearUsuario">
+        </form>
+    </div>
+    <script>
+        document.getElementById('crearUsuario').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evita el envío tradicional del formulario
+
+            // Recolectar los datos del formulario
+            const formData = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                email: document.getElementById('email').value,
+                nombre: document.getElementById('nombre').value,
+                apellidos: document.getElementById('apellido').value,
+                rol: document.getElementById('rol').value,
+                nit: document.getElementById('nit').value
+            };
+
+            for (let campo in formData) {
+                console.log(`${campo}: ${formData[campo]}`);
+            }
+
+            // Enviar los datos con fetch usando JSON
+            fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    console.log(response); if (!response.ok) throw new Error('Error en la respuesta del servidor');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Usuario creado:', data);
+                    alert('Usuario creado exitosamente');
+                    window.location.href = '/users/IndexUser.html'; // Redirige si todo sale bien
+                })
+        });
+    </script>
+</body>
+
+</html>

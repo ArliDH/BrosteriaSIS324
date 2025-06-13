@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../ajaxPrincipal.js"></script>
+    <style>
+        #divlogReg {
+            display: flex;
+            flex-direction: column;
+            background-color: red;
+            border: 1px solid red;
+            box-shadow: 0px 0px 10px black;
+            width: 350px;
+        }
+
+        #divlog,
+        #divReg {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+
+        #divlog form,
+        #divReg form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input {
+            padding: 10px;
+        }
+
+        #divlogReg button {
+            border: none;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="divlogReg">
+        <div id="divlog">
+            <h1>Brosteria SIS324</h1>
+            <h3>Iniciar Sesion</h3>
+            <form id="formlog" action="javascript:iniciarsesion()" method="post">
+                <input type="email" name="email" id="email" placeholder="Correo Electronico" required>
+                <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                <input type="submit" value="Iniciar Sesion">
+            </form>
+        </div>
+        <button id="logReg">Registrase</button>
+        <div id="divReg" style="display: none;">
+            <h1>Brosteria SIS324</h1>
+            <h3>Registrase</h3>
+            <form id="formReg" action="javascript:Registrarse()" method="post">
+                <input type="text" name="usuario" id="usuario" placeholder="Nombre de Usuario" required>
+                <input type="email" name="email1" id="email1" placeholder="Correo Electronico" required>
+                <input type="password" name="password1" id="password1" placeholder="Contraseña" required>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
+                <input type="text" name="apellido" id="apellido" placeholder="Apellido" required>
+                <input type="number" id="nit" name="nit" placeholder="Nit de la Empresa/Usuario" required>
+                <input type="text" name="rol" id="rol" value="cliente" hidden>
+                <input type="submit" value="Iniciar Sesion">
+            </form>
+        </div>
+    </div>
+    <script>
+        var boton = document.getElementById('logReg');
+        let isRegistrarse = false; // Esta variable controlará qué formulario se muestra
+
+        boton.addEventListener('click', () => {
+            // Alternar la visibilidad de los formularios
+            if (isRegistrarse) {
+                boton.textContent = "Registrarse"; // Cambiar el texto del botón
+                document.getElementById('divReg').style.display = "none";
+                document.getElementById('divlog').style.display = "block";
+                boton.style.borderBottomLeftRadius = '0px';
+                boton.style.borderBottomRightRadius = '0px';
+                boton.style.borderTopLeftRadius = '10px';
+                boton.style.borderTopRightRadius = '10px';
+            } else {
+                boton.textContent = "Iniciar Sesion"; // Cambiar el texto del botón
+                document.getElementById('divlog').style.display = "none";
+                document.getElementById('divReg').style.display = "block";
+                boton.style.borderBottomLeftRadius = '10px';
+                boton.style.borderBottomRightRadius = '10px';
+                boton.style.borderTopLeftRadius = '0px';
+                boton.style.borderTopRightRadius = '0px';
+            }
+            isRegistrarse = !isRegistrarse; // Alternar el valor de la variable
+        })
+    </script>
+</body>
+
+</html>

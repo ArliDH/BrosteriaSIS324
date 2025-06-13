@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresar Un Nuevo Platillo</title>
+    <script src="ajax.js"></script>
+</head>
+<body>
+    <div>
+        <form id="formCrear" action="javascript:newplatillo()" method="post" enctype="multipart/form-data">
+            <h1>Crear Platillo</h1>
+            <label for="nombre"></label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre del Platillo" required>
+
+            <label for="descripcion"></label>
+            <input type="text" id="descripcion" name="descripcion" placeholder="Descripcion referente al platillo" required>
+
+            <label for="precio"></label>
+            <div id="precioBs">
+                <input type="number" id="precio" name="precio" placeholder="Precio del Platillo" style="width: 250px; margin-left: -10px;" required> Bs
+            </div>
+
+            <label for="imagen" style="text-align: start;">Imagen Referente al platillo</label>
+            <input type="file" id="imagen" name="img" accept="uploads/*">
+
+            <label for="categoria" style="text-align: start;">Categoria:</label>
+            <div id="Radios">
+                <input type="radio" name="categoria" id="categoria" value="platillo"> Platillo
+                <input type="radio" name="categoria" id="categoria" value="bebidas"> Bebidas
+                <input type="radio" name="categoria" id="categoria" value="extras"> Extras
+                
+            </div>
+            <input type="number" step="0.01" id="descuento" name="descuento" placeholder="Descuento del Producto">
+
+            <input type="submit" value="Crear Platillo">
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../ajaxPrincipal.js"></script>
+  <style>
+    :root {
+      --primary-bg: #2c3e50;
+      --secondary-bg: #ecf0f1;
+      --menu-bg: #34495e;
+      --accent-color: #3498db;
+      --hover-bg: #1abc9c;
+      --text-color: #ffffff;
+      --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-main);
+
+      background-color: var(--secondary-bg);
+      color: #2c3e50;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--primary-bg);
+      color: var(--text-color);
+      padding: 15px 20px;
+      height: 45px;
+      position: fixed;
+      width: 98%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .container_1 {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+    }
+
+    nav .Sesion {
+      font-weight: 500;
+      color: var(--text-color);
+      text-align: right;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    nav .Sesion:hover {
+      color: var(--hover-bg);
+    }
+
+    .container_2 {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      height: 90vh;
+      width: 100%;
+      position: relative;
+      top: 60px;
+      /* debajo de la barra nav */
+      left: 0;
+    }
+
+    .container_3 {
+      background-color: var(--menu-bg);
+      height: 100vh;
+      overflow-y: auto;
+      padding-top: 20px;
+      margin-left: -10px;
+    }
+
+    .container_3 ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container_3 ul #User {
+      background-color: #000;
+    }
+
+    .container_3 ul div {
+      padding: 15px 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .container_3 ul div:hover {
+      background-color: var(--hover-bg);
+      cursor: pointer;
+    }
+
+    .container_3 ul div li a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      display: block;
+    }
+
+    .container_4 {
+      padding: 50px;
+      margin-top: 60px;
+      overflow-y: auto;
+      background-color: var(--secondary-bg);
+      width: 100vw;
+      height: calc(100vh - 60px);
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="container_1" id="container_1">
+      <h3>Menu</h3>
+      <button id="button"><img src="https://i.pinimg.com/1200x/dc/48/4d/dc484d2a8f27cd4d8f24c313c5930f18.jpg" alt="#"
+          style="width: 20px; height: 20px;"></button>
+    </div>
+    <a href="javascript:cerrarSesion()" style="text-decoration: none; color: white;">
+      <h3 class="Sesion">Cerrar Sesion</h3>
+    </a>
+  </nav>
+  <div class="container_2" id="container_2">
+    <div class="container_3" id="container_3">
+      <ul>
+        <div id="P_Principal">
+          <li>Menu Principal</li>
+        </div>
+        <div id="User">
+          <li><a href="../users/IndexUser.html">Usuarios</a></li>
+        </div>
+        <div id="Platillos">
+          <li><a href="../platillos/IndexPlatillos.html">Platillos</a></li>
+        </div>
+        <div id="Pedidos">
+          <li><a href="../pedidos/IndexPedidos.html">Pedidos</a></li>
+        </div>
+      </ul>
+    </div>
+    <div class="container_4">
+      <div class="container_4_1">
+        <h3>Bienbenido a la Brosteria</h3>
+        <h1>SIS324</h1>
+        <p>
+          Es un Restaurantee Unico en su ambito con una tematica unica logrando
+          se una de las mas conocidas por esta zona y estilos
+        </p>
+        <Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwha_NRNYKQjZCB6GuetLQpLSIOPNtqzuBDw&s"
+          alt=""></Img>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    const boton = document.getElementById('button');
+    const container3 = document.getElementById('container_3');
+    const container2 = document.getElementById('container_2');
+
+    boton.addEventListener('click', () => {
+      if (container3.style.display === 'none' || container3.style.display === '') {
+        container3.style.display = 'block';
+      } else {
+        container3.style.display = 'none';
+        container2.style.width = '100%';
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      verificarRol();
+    });
+  </script>
+</body>
+
+</html>

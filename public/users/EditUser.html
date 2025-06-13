@@ -1,0 +1,94 @@
+<!-- /view/users/EditUser.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+</head>
+
+<body>
+    <div class="NewUser">
+        <form id="formEditarUsuario">
+            <h1>Editar Usuario</h1>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" required><br><br>
+
+            <label for="rol">Rol:</label>
+            <select name="rol" id="rol">
+                <option value="cliente" id="rol">Cliente</option>
+                <option value="cajero" id="rol">Cajero</option>
+                <option value="gerente" id="rol">Gerente</option>
+            </select>
+
+            <input type="number" id="nit" name="nit" required><br><br>
+            <input type="submit" value="Editar Usuario">
+        </form>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get('id');
+
+        // Cargar datos actuales del usuario
+        fetch(`/users/${userId}`)
+            .then(response => response.json())
+            .then(user => {
+                document.getElementById('username').value = user.username;
+                document.getElementById('password').value = user.password;
+                document.getElementById('email').value = user.email;
+                document.getElementById('nombre').value = user.nombre;
+                document.getElementById('apellido').value = user.apellidos;
+                document.getElementById('rol').value = user.rol;
+                document.getElementById('nit').value = user.nit;
+            })
+            .catch(err => console.error('Error al cargar usuario:', err));
+
+        // Enviar actualización
+        document.getElementById('formEditarUsuario').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const updatedUser = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                email: document.getElementById('email').value,
+                nombre: document.getElementById('nombre').value,
+                apellidos: document.getElementById('apellido').value,
+                rol: document.getElementById('rol').value,
+                nit: document.getElementById('nit').value
+            };
+
+            fetch(`/users/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedUser)
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error('Error al actualizar');
+                    alert('Usuario actualizado');
+                    window.location.href = '/users/IndexUser.html';
+                })
+                .catch(err => {
+                    console.error('Error al actualizar usuario:', err);
+                    alert('Error al actualizar el usuario');
+                });
+        });
+    </script>
+</body>
+
+</html>

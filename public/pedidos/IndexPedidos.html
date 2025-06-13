@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Factura de Pedido</title>
+  <link rel="stylesheet" href="stylepedido.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="scriptpedidos.js"></script>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    #form {
+      width: fit-content;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilo para botones */
+    #botones button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #botones button:hover {
+      background-color: #0056b3;
+    }
+
+    .ocultar-en-pdf {
+      display: none !important;
+    }
+
+    .ocultar-columna {
+      display: none !important;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+
+<body onload="javascript:mostrarPedidosRol(); generarFecha();">
+  <nav>
+    <div class="container_1" id="container_1">
+      <h3>Menu</h3>
+      <button id="button">
+        <img src="https://i.pinimg.com/1200x/dc/48/4d/dc484d2a8f27cd4d8f24c313c5930f18.jpg"
+          style="width: 20px; height: 20px" />
+      </button>
+    </div>
+    <a href="javascript:cerrarSesion()" style="text-decoration: none; color: white">
+      <h3 class="Sesion">Cerrar Sesion</h3>
+    </a>
+  </nav>
+
+  <div class="container_2" id="container_2">
+    <div class="container_3" id="container_3">
+      <ul>
+        <div id="P_Principal">
+          <li><a href="../PaginaInicio/Index.html">Pagina Principal</a></li>
+        </div>
+        <div id="User">
+          <li><a href="/users/IndexUser.html">Usuarios</a></li>
+        </div>
+        <div id="Platillos">
+          <li><a href="/platillos/IndexPlatillos.html">Platillos</a></li>
+        </div>
+        <div id="Pedidos">
+          <li>Pedidos</li>
+        </div>
+      </ul>
+    </div>
+
+    <div id="container_4" class="container_4">
+      <div id="form">
+        <div id="DatosEmpresa">
+          <img src="../../uploads/LoginBr.png" alt="Logo Empresa" style="width: 300px; height: 100px" />
+          <p>Sucre-Bolivia</p>
+          <p>Av Limone Frente a la Facultad de Tecnica</p>
+        </div>
+
+        <h2>FACTURA</h2>
+
+        <div id="NombreUser">
+          <p>Nombre del Beneficiario:</p>
+          <p id="Nombre"></p>
+        </div>
+        <div id="NitUser">
+          <p>Nit/CI: </p>
+          <p id="Nit"></p>
+        </div>
+        <div id="FechaUser">
+          <p>Fecha de Emisión:</p>
+          <p id="fecha"></p>
+        </div>
+
+        <h3>Lista de Pedidos Realizados</h3>
+        <table id="tablaPedidos">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Descuento</th>
+              <th>Total</th>
+              <th class="col-operaciones">Operaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <div id="cantidadT">
+          <label>Total:</label>
+          <label id="Total"></label>
+        </div>
+      </div>
+
+      <div id="botones">
+        <button id="Imprimir">Descargar factura</button>
+        <button id="Ver">Imprimir</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const boton = document.getElementById('button');
+    const container3 = document.getElementById('container_3');
+    const container2 = document.getElementById('container_2');
+
+    boton.addEventListener('click', () => {
+      container3.style.display = container3.style.display === 'none' || container3.style.display === '' ? 'block' : 'none';
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      verificarRol();
+    });
+
+    // Fecha automática
+    function generarFecha() {
+      const now = new Date();
+      document.getElementById("fecha").textContent = now.toLocaleString();
+    }
+
+    function ocultarColumna(index, tabla, clase) {
+      for (let row of tabla.rows) {
+        if (row.cells[index]) {
+          row.cells[index].classList.add(clase);
+        }
+      }
+    }
+
+    // Imprimir PDF sin botones ni columna operaciones
+    document.getElementById("Imprimir").addEventListener("click", () => {
+      const botones = document.getElementById("botones");
+      const tabla = document.getElementById("tablaPedidos");
+
+      botones.classList.add("ocultar-en-pdf");
+      ocultarColumna(5, tabla, "ocultar-columna");
+
+      const formElement = document.getElementById("form");
+
+      html2canvas(formElement).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        const marginTop = 10;
+        pdf.addImage(imgData, "PNG", 0, marginTop, pdfWidth, pdfHeight);
+        pdf.save("pedido.pdf");
+
+        botones.classList.remove("ocultar-en-pdf");
+        ocultarColumna(5, tabla, "");
+      });
+    });
+
+    document.getElementById("Ver").addEventListener("click", () => {
+      const botones = document.getElementById("botones");
+      const tabla = document.getElementById("tablaPedidos");
+
+      botones.classList.add("ocultar-en-pdf");
+      ocultarColumna(5, tabla, "ocultar-columna");
+
+      const formElement = document.getElementById("form");
+
+      html2canvas(formElement).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        const marginTop = 10;
+        pdf.addImage(imgData, "PNG", 0, marginTop, pdfWidth, pdfHeight);
+
+        // Abrir en nueva pestaña
+        window.open(pdf.output("bloburl"));
+
+        botones.classList.remove("ocultar-en-pdf");
+        ocultarColumna(5, tabla, ""); // restaurar columna
+      });
+    });
+
+  </script>
+</body>
+
+</html>

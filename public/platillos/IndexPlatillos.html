@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="ajax.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../bootstrap-5.3.6-dist/css/bootstrap-grid.min.css">
+</head>
+
+<body onload="javascript:mostrarTodo()">
+    <nav>
+        <div class="container_1" id="container_1">
+            <h3>Menu</h3>
+            <button id="button"><img src="https://i.pinimg.com/1200x/dc/48/4d/dc484d2a8f27cd4d8f24c313c5930f18.jpg"
+                    style="width: 20px; height: 20px;"></button>
+        </div>
+        <a href="javascript:cerrarSesion()" style="text-decoration: none; color: white;">
+            <h3 class="Sesion">Cerrar Sesion</h3>
+        </a>
+    </nav>
+    <div class="container_2" id="container_2">
+        <div class="container_3" id="container_3">
+            <ul>
+                <div id="P_Principal">
+                    <li><a href="../PaginaInicio/Index.html">Pagina Principal</a></li>
+                </div>
+                <div id="User">
+                    <li><a href="/users/IndexUser.html">Usuarios</a></li>
+                </div>
+                <div id="Platillos">
+                    <li>Platillos</li>
+                </div>
+                <div id="Pedidos">
+                    <li><a href="/pedidos/IndexPedidos.html">Pedidos</a></li>
+                </div>
+            </ul>
+        </div>
+        <div class="container_4">
+            <div class="container_41">
+                <h4 style="font-size: 20px;">Categoria</h4>
+                <ul style="list-style-type: none; margin-left: 20px;">
+                    <li style="color: black;"><input type="checkbox" name="catg" id="catg" value="platillo">
+                        Platillos</li>
+                    <li style="color: black;"><input type="checkbox" name="catg" id="catg" value="bebidas"> Bebidas
+                    </li>
+                    <li style="color: black;"><input type="checkbox" name="catg" id="catg" value="extras"> Extras
+                    </li>
+                </ul>
+            </div>
+            <div class="container_42" id="container_42" style="padding: 20px;">
+                <h2>Menu Principal</h2>
+                <div id="Platillos_Pollo">
+                    <!--Aqui se mostraran los platillos-->
+                </div>
+                <div id="NuevoPlatillo">
+                    <button id="botoncrear" onclick="javascript:abrirmodal('CreatePlatillo.html')">Crear Nuevo
+                        Platillo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" style="display: none;">
+        <div id="divmodal">
+            <button id="cerrar">X</button>
+            <div id="contenidomodal"></div>
+        </div>
+    </div>
+    <script>
+        const boton = document.getElementById('button');
+        const container4 = document.getElementById('container_4');
+        const container3 = document.getElementById('container_3');
+        const container42 = document.getElementById('container_42');
+
+        boton.addEventListener('click', () => {
+            const isHidden = container3.style.display === 'none' || container3.style.display === '';
+
+            if (isHidden) {
+                container3.style.display = 'block';
+                container3.style.width = '250px'
+                container42.style.width = '900px';
+            } else {
+                container3.style.display = 'none';
+                container42.style.width = '';
+            }
+        });
+
+        // Obtener todos los checkboxes con name="catg"
+        const checkboxes = document.getElementsByName('catg');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                // Obtener los checkboxes marcados
+                const seleccionados = Array.from(checkboxes)
+                    .filter(ch => ch.checked)
+                    .map(ch => ch.value);
+
+                mostrarTodo()
+
+                // Aquí podrías llamar a mostrarTodo(seleccionados) si pasas los filtros como argumento
+            });
+        });
+
+        //document.getElementsByName('catg').forEach(input => {
+        //input.addEventListener('change', mostrarTodo());
+        //});
+
+        document.addEventListener('DOMContentLoaded', function () {
+            verificarRol();
+        });
+    </script>
+</body>
+
+</html>
